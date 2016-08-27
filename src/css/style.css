@@ -1,0 +1,37 @@
+html{
+  height:100%;
+}
+
+body{
+  background-repeat: no-repeat;
+  height: 100%;
+  margin: 0;
+  background-attachment: fixed;
+  background: -webkit-linear-gradient(white, #e6f3ff); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(white, #e6f3ff); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(white, #e6f3ff); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(white, #e6f3ff); /* Standard syntax */
+}
+
+rect.btn {
+  stroke:#fff;
+  fill:#fff;
+  fill-opacity:0;
+  stroke-opacity:0;
+}
+
+.imena:hover {
+  fill: #b566ff;
+}
+
+#frame {
+  position: relative;
+}
+
+#svgFrame {
+  position:absolute;
+  background:#e6f3ff;
+  left:50%;
+  top:10px;
+  margin-left:-400px;
+}
