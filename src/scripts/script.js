@@ -87,7 +87,7 @@ var dotTemplate = lodash.template(multiline.stripIndent(function () {/*
 
     <text class="nameText"
           onclick="updating(\"${ id }\", \"${ name }\")"
-          x="${ posX + 25 }" y="${ posy + 3 }"
+          x="${ posX + 25 }" y="${ posY + 3 }"
           font-family="Monospace" font-size="12"
           fill="black">${ name }</text>
   </g>
