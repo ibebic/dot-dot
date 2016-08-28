@@ -8,7 +8,7 @@ function adding(positionX, positionY) {
   $.ajax({
     url: '/api/bears',
     type: 'POST',
-    data: {name: dotdot, posX: positionX, posY: positionY},
+    data: { name: dotdot, posX: positionX, posY: positionY },
     dataType: 'json',
     success: function () {
       listing();
@@ -26,20 +26,18 @@ function listing() {
     url: '/api/bears',
     type: 'GET',
     dataType: 'json',
-    success: function (data) {
-      // adding the initial dot to dotlist variable in html form
-      var dotList = dotGenerator(data, 0);
-      // adding the remaining dots to dotlist variable in html form
-      for (var i = 1; i < data.length; i++) {
-        dotList += dotGenerator(data, i);
-      }
-      document.getElementById('svgFrame').innerHTML = dotList;
+    success: function (bears) {
+      var dots = bears.map(function (bear) {
+        return createDot(bear);
+      }).join('');
+
+      document.getElementById('svgFrame').innerHTML = dots;
     }
   });
 }
 
 // erases the dot and calls the listing() function to refresh the state
-function erasing(dotId) {
+function erasing(dotId) { // eslint-disable-line no-unused-vars
   $.ajax({
     url: '/api/bears/' + dotId,
     dataType: 'json',
@@ -51,12 +49,12 @@ function erasing(dotId) {
 }
 
 // updates the existing dot name and calls the listing() function to refresh the state
-function updating(dotId, dotName) {
+function updating(dotId, dotName) { // eslint-disable-line no-unused-vars
   var updatedDotName = prompt('New name:', dotName);
   if (updatedDotName !== null) {
     $.ajax({
       url: '/api/bears/' + dotId,
-      data: {name: updatedDotName},
+      data: { name: updatedDotName },
       dataType: 'json',
       type: 'PUT',
       success: function () {
@@ -94,11 +92,11 @@ var dotTemplate = lodash.template(multiline.stripIndent(function () {/*
 */}));
 
 // generate SVG dot along with its corresponding rect object for appending the erasing() fuction and text with the updating function appended
-function dotGenerator(data, place) {
+function createDot(data) {
   return dotTemplate({
-    posX: parseInt(data[place].posX, 10),
-    posY: parseInt(data[place].posY, 10),
-    name: data[place].name,
-    id: data[place]._id
+    posX: parseInt(data.posX, 10),
+    posY: parseInt(data.posY, 10),
+    name: data.name,
+    id: data._id
   });
 }
