@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;  // set our PORT
@@ -35,7 +35,7 @@ router.use(function (req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function (req, res) {
-  res.json({message: 'API working!'});
+  res.json({ message: 'API working!' });
 });
 
 // more routes for our API will happen here
@@ -56,7 +56,7 @@ router.route('/bears')
           if (err) {
             res.send(err);
           }
-          res.json({message: bear.name + ' bear created at ' + bear.dateCreated + '!'});
+          res.json({ message: bear.name + ' bear created at ' + bear.dateCreated + '!' });
         });
       })
       // get all the bears (accessed at GET http://localhost:8080/api/bears)
@@ -97,7 +97,7 @@ router.route('/bears/:bear_id')
           if (err) {
             res.send(err);
           }
-          res.json({message: 'Bear updated!'});
+          res.json({ message: 'Bear updated!' });
         });
       });
     })
@@ -109,7 +109,7 @@ router.route('/bears/:bear_id')
         if (err) {
           res.send(err);
         }
-        res.json({message: 'Successfully deleted'});
+        res.json({ message: 'Successfully deleted' });
       });
     });
 
