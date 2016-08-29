@@ -1,14 +1,20 @@
 {
 	"extends": "xo",
 	"rules": {
-			"indent": [ "error", 2 ]
+		"indent": [ "error", 2 ],
+		"no-alert": [ "off" ],
+		"object-curly-spacing": [ "error", "always", {
+			"arraysInObjects": false,
+			"objectsInObjects": false
+		}]
 	},
 	"env": {
-        "browser": true,
-        "node": true
-    },
-				"globals": {
-						"$": false
-				}
-
+		"browser": true,
+		"node": true
+	},
+	"globals": {
+		"$": false,
+		"multiline": false,
+		"lodash": false
+	}
 }

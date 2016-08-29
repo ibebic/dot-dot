@@ -7,6 +7,10 @@
     "mongoose": "^4.5.9"
   },
   "scripts": {
-      "start": "node server.js"
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "eslint": "^3.4.0",
+    "eslint-config-xo": "^0.15.4"
   }
 }
