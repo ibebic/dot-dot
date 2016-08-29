@@ -75,8 +75,8 @@ document.getElementById('svgFrame').addEventListener('click', function (evt) {
 var dotTemplate = lodash.template(multiline.stripIndent(function () {/*
   <g>
     <circle class="circles"
-            cx="${ posX }" cy="${ posY }" r="20"
-            fill="#e6ccff"/>
+            cx="${ posX }" cy="${ posY }" r="16"
+            fill="#339cff"/>
 
     <rect class="btn"
           onclick="erasing('${ id }')"
@@ -85,8 +85,8 @@ var dotTemplate = lodash.template(multiline.stripIndent(function () {/*
 
     <text class="nameText"
           onclick="updating('${ id }', '${ name }')"
-          x="${ posX + 25 }" y="${ posY + 3 }"
-          font-family="Monospace" font-size="12"
+          x="${ posX + 25 }" y="${ posY + 4 }"
+          font-family="Monospace" font-size="11"
           fill="black">${ name }</text>
   </g>
 */}));
