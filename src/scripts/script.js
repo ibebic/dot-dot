@@ -91,7 +91,7 @@ var dotTemplate = lodash.template(multiline.stripIndent(function () {/*
   </g>
 */}));
 
-// generate SVG dot along with its corresponding rect object for appending the erasing() fuction and text with the updating function appended
+// generate an SVG dot along with its corresponding rect object for appending the erasing() fuction and text with the updating function appended
 function createDot(data) {
   return dotTemplate({
     posX: parseInt(data.posX, 10),
