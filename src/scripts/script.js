@@ -1,5 +1,5 @@
 window.onload = listing();
-
+var toggle = true;
 // adds a dot and calls the listing() function to refresh the state
 function adding(positionX, positionY) {
   var dotdot = document.getElementById('dotNameInput').value;
@@ -38,14 +38,16 @@ function listing() {
 
 // erases the dot and calls the listing() function to refresh the state
 function erasing(dotId) { // eslint-disable-line no-unused-vars
-  $.ajax({
-    url: '/api/bears/' + dotId,
-    dataType: 'json',
-    type: 'DELETE',
-    success: function () {
-      listing();
-    }
-  });
+  if (toggle === true) {
+    $.ajax({
+      url: '/api/bears/' + dotId,
+      dataType: 'json',
+      type: 'DELETE',
+      success: function () {
+        listing();
+      }
+    });
+  }
 }
 
 // updates the existing dot name and calls the listing() function to refresh the state
@@ -79,7 +81,7 @@ var dotTemplate = lodash.template(multiline.stripIndent(function () {/*
             fill="#339cff"/>
 
     <rect class="btn"
-          onclick="erasing('${ id }')"
+          onmouseup="erasing('${ id }')"
           x="${ posX - 17 }" y="${ posY - 17 }"
           width='34' height='34'/>
 
@@ -100,3 +102,8 @@ function createDot(data) {
     id: data._id
   });
 }
+
+$(document).on('click', '.toggle-button', function () {
+  $(this).toggleClass('toggle-button-selected');
+  toggle = !toggle;
+});
