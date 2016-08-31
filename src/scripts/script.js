@@ -33,7 +33,7 @@ function listing() {
     success: function (bears) {
       var dots = bears.filter(function (bears) {
         var checkDate = document.getElementById('filterDate').value;
-        return Date.parse(bears.dateCreated) < (Date.parse(checkDate)+86400000);
+        return Date.parse(bears.dateCreated) < (Date.parse(checkDate) + 86400000); // add one day to current time as a temporary fix for newly added dots
       });
       dots = dots.map(function (bear) {
         return createDot(bear);
