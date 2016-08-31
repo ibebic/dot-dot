@@ -1,4 +1,8 @@
 window.onload = listing();
+window.onload = function () {
+  document.getElementById('filterDate').valueAsDate = new Date();
+};
+var toggle = true;
 
 // adds a dot and calls the listing() function to refresh the state
 function adding(positionX, positionY) {
@@ -27,10 +31,13 @@ function listing() {
     type: 'GET',
     dataType: 'json',
     success: function (bears) {
-      var dots = bears.map(function (bear) {
+      var dots = bears.filter(function (bears) {
+        var checkDate = document.getElementById('filterDate').value;
+        return Date.parse(bears.dateCreated) < (Date.parse(checkDate) + 86400000); // add one day to current time as a temporary fix for newly added dots
+      });
+      dots = dots.map(function (bear) {
         return createDot(bear);
       }).join('');
-
       document.getElementById('svgFrame').innerHTML = dots;
     }
   });
@@ -38,14 +45,16 @@ function listing() {
 
 // erases the dot and calls the listing() function to refresh the state
 function erasing(dotId) { // eslint-disable-line no-unused-vars
-  $.ajax({
-    url: '/api/bears/' + dotId,
-    dataType: 'json',
-    type: 'DELETE',
-    success: function () {
-      listing();
-    }
-  });
+  if (toggle === true) {
+    $.ajax({
+      url: '/api/bears/' + dotId,
+      dataType: 'json',
+      type: 'DELETE',
+      success: function () {
+        listing();
+      }
+    });
+  }
 }
 
 // updates the existing dot name and calls the listing() function to refresh the state
@@ -79,7 +88,7 @@ var dotTemplate = lodash.template(multiline.stripIndent(function () {/*
             fill="#339cff"/>
 
     <rect class="btn"
-          onclick="erasing('${ id }')"
+          onmouseup="erasing('${ id }')"
           x="${ posX - 17 }" y="${ posY - 17 }"
           width='34' height='34'/>
 
@@ -100,3 +109,8 @@ function createDot(data) {
     id: data._id
   });
 }
+
+$(document).on('click', '.toggle-button', function () {
+  $(this).toggleClass('toggle-button-selected');
+  toggle = !toggle;
+});
