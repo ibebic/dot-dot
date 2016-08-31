@@ -1,5 +1,9 @@
 window.onload = listing();
+window.onload = function () {
+  document.getElementById('filterDate').valueAsDate = new Date();
+};
 var toggle = true;
+
 // adds a dot and calls the listing() function to refresh the state
 function adding(positionX, positionY) {
   var dotdot = document.getElementById('dotNameInput').value;
@@ -27,10 +31,13 @@ function listing() {
     type: 'GET',
     dataType: 'json',
     success: function (bears) {
-      var dots = bears.map(function (bear) {
+      var dots = bears.filter(function (bears) {
+        var checkDate = document.getElementById('filterDate').value;
+        return bears.dateCreated < checkDate;
+      });
+      dots = dots.map(function (bear) {
         return createDot(bear);
       }).join('');
-
       document.getElementById('svgFrame').innerHTML = dots;
     }
   });
