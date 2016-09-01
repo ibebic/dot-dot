@@ -1,7 +1,10 @@
 window.onload = listing();
+
+// loads current date in date field
 window.onload = function () {
   document.getElementById('filterDate').valueAsDate = new Date();
 };
+
 var toggle = true;
 
 // adds a dot and calls the listing() function to refresh the state
@@ -110,6 +113,7 @@ function createDot(data) {
   });
 }
 
+// toggleing the button for blocking / allowing dot deletion
 $(document).on('click', '.toggle-button', function () {
   $(this).toggleClass('toggle-button-selected');
   toggle = !toggle;
