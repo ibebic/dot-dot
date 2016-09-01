@@ -62,7 +62,7 @@ function erasing(dotId) { // eslint-disable-line no-unused-vars
 
 // updates the existing dot name and calls the listing() function to refresh the state
 function updating(dotId) { // eslint-disable-line no-unused-vars
-    document.getElementById('svgFrame').style['-webkit-filter'] = 'grayscale(0%)';
+  document.getElementById('svgFrame').style['-webkit-filter'] = 'grayscale(0%)';
   var updatedDotName = document.getElementById('updateInput').value;
   document.getElementById('updateInput').style.visibility = 'hidden';
   document.getElementById('updateButton').style.visibility = 'hidden';
@@ -79,7 +79,8 @@ function updating(dotId) { // eslint-disable-line no-unused-vars
   }
 }
 
-function showUpdateInput (dotId, dotName) {
+// displays input field and button fro entering a new name for existing dot and adding the call to updating function on button click
+function showUpdateInput(dotId, dotName) { // eslint-disable-line no-unused-vars
   document.getElementById('svgFrame').style['-webkit-filter'] = 'grayscale(100%)';
   document.getElementById('updateInput').style.visibility = 'visible';
   document.getElementById('updateButton').style.visibility = 'visible';

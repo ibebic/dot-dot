@@ -80,6 +80,7 @@ rect.btn {
     cursor: pointer;
 }
 
+/*Button and Input field for updating existing dots*/
 #updateInput, #updateButton {
   visibility: hidden;
   position:fixed;
@@ -95,6 +96,7 @@ rect.btn {
   filter: grayscale(0%);
 }
 
+/*Update button needs to be positioned 25px below input fiedl and needs to have larger dimensions*/
 #updateButton {
   top: 325px;
   width: 104px;
