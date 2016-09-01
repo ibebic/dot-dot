@@ -61,8 +61,11 @@ function erasing(dotId) { // eslint-disable-line no-unused-vars
 }
 
 // updates the existing dot name and calls the listing() function to refresh the state
-function updating(dotId, dotName) { // eslint-disable-line no-unused-vars
-  var updatedDotName = prompt('New name:', dotName);
+function updating(dotId) { // eslint-disable-line no-unused-vars
+    document.getElementById('svgFrame').style['-webkit-filter'] = 'grayscale(0%)';
+  var updatedDotName = document.getElementById('updateInput').value;
+  document.getElementById('updateInput').style.visibility = 'hidden';
+  document.getElementById('updateButton').style.visibility = 'hidden';
   if (updatedDotName !== null) {
     $.ajax({
       url: '/api/bears/' + dotId,
@@ -74,6 +77,15 @@ function updating(dotId, dotName) { // eslint-disable-line no-unused-vars
       }
     });
   }
+}
+
+function showUpdateInput (dotId, dotName) {
+  document.getElementById('svgFrame').style['-webkit-filter'] = 'grayscale(100%)';
+  document.getElementById('updateInput').style.visibility = 'visible';
+  document.getElementById('updateButton').style.visibility = 'visible';
+  document.getElementById('updateInput').value = dotName;
+  var element = document.getElementById('updateButton');
+  element.onclick = updating.bind(null, dotId);
 }
 
 // event listener for clicks inside of svgFrame which calls the adding() function in case the dotNameInput field value lenght is greater than 0
@@ -96,7 +108,7 @@ var dotTemplate = lodash.template(multiline.stripIndent(function () {/*
           width='34' height='34'/>
 
     <text class="nameText"
-          onclick="updating('${ id }', '${ name }')"
+          onclick="showUpdateInput('${ id }', '${ name }')"
           x="${ posX + 25 }" y="${ posY + 4 }"
           font-family="Monospace" font-size="11"
           fill="black">${ name }</text>
@@ -113,7 +125,7 @@ function createDot(data) {
   });
 }
 
-// toggleing the button for blocking / allowing dot deletion
+// toggling the button for blocking / allowing dot deletion
 $(document).on('click', '.toggle-button', function () {
   $(this).toggleClass('toggle-button-selected');
   toggle = !toggle;
