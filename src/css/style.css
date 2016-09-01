@@ -94,6 +94,7 @@ rect.btn {
   -webkit-filter: grayscale(0%);
   -moz-filter: grayscale(0%);
   filter: grayscale(0%);
+  -webkit-filter: drop-shadow(3px 3px 2px gray);
 }
 
 /*Update button needs to be positioned 25px below input fiedl and needs to have larger dimensions*/
