@@ -15,7 +15,8 @@ function adding(positionX, positionY) {
   $.ajax({
     url: '/api/bears',
     type: 'POST',
-    data: { name: dotdot, posX: positionX, posY: positionY },
+    data: JSON.stringify({ name: dotdot, posX: positionX, posY: positionY }),
+    contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     success: function () {
       listing();
@@ -36,7 +37,7 @@ function listing() {
     success: function (bears) {
       var dots = bears.filter(function (bears) {
         var checkDate = document.getElementById('filterDate').value;
-        return Date.parse(bears.dateCreated) < (Date.parse(checkDate) + 86400000); // add one day to current time as a temporary fix for newly added dots
+        return Date.parse(bears.createdAt) < (Date.parse(checkDate) + 86400000); // add one day to current time as a temporary fix for newly added dots
       });
       dots = dots.map(function (bear) {
         return createDot(bear);
@@ -69,8 +70,9 @@ function updating(dotId) { // eslint-disable-line no-unused-vars
   if (updatedDotName !== null) {
     $.ajax({
       url: '/api/bears/' + dotId,
-      data: { name: updatedDotName },
+      data: JSON.stringify({ name: updatedDotName }),
       dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
       type: 'PUT',
       success: function () {
         listing();

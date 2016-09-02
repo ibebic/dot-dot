@@ -1,12 +1,16 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+'use strict';
 
-var BearSchema = new Schema({
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const Bear = new Schema({
   name: String,
   creator: String,
   dateCreated: Date,
-  posX: String,
-  posY: String
+  posX: Number,
+  posY: Number
+}, {
+  timestamps: true
 });
 
-module.exports = mongoose.model('Bear', BearSchema);
+module.exports = mongoose.model('Bear', Bear);

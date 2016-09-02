@@ -1,123 +1,35 @@
-// BASE SETUP
-// ================================================================================
+'use strict';
 
-// call the packages we need
-var express = require('express'); // call express
-var app = express();  // define our app using express
-var bodyParser = require('body-parser');
+// Load environment vars.
+require('dotenv').load();
+const port = process.env.PORT || 8080;
 
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const pathJoin = require('path').join;
+const api = require('./app/api.js');
 
-var port = process.env.PORT || 8080;  // set our PORT
+// Setup express server.
+const app = express()
+  .use(morgan('combined'))
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.json())
+  .use(express.static(pathJoin(__dirname, '/src')))
+  .use('/api', api);
 
-var creds = require('./config/env/credentials.js');
-var mongoose = require('mongoose');
-mongoose.connect(creds.db); // connect to database
-// mongoose.connect('mongodb://user:pass@domain'); // connect to database
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-
-var Bear = require('./app/models/bear');
-
-// ROUTES FOR OUR API
-// ================================================================================
-var router = express.Router();  // get an instance of the express Router
-
-// middleware to use for all requests
-router.use(function (req, res, next) {
-  // do logging
-  console.log('Something is happening.');
-  next(); // make sure we go to the next routes and don't stop here
+// Connect to mongo database.
+mongoose.connect(process.env.DB_HOST, process.env.DB_NAME, {
+  user: process.env.DB_USERNAME,
+  pass: process.env.DB_PASSWORD
 });
+mongoose.connection.on('error', err =>
+  console.error('Error: Connecting to mongo failed,', err.message));
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function (req, res) {
-  res.json({ message: 'API working!' });
+// Start server.
+app.listen(port, err => {
+  if (err) console.error('Error: Starting server failed,', err.message);
+  console.log('App active on port ' + port);
 });
-
-// more routes for our API will happen here
-// on routes that end in /bears
-// ------------------------------------------------------
-router.route('/bears')
-
-// create a bear (accessed at POST http://localhost:8080/api/bears)
-      .post(function (req, res) {
-        var bear = new Bear();  // create a new instance of the Bear models
-        bear.name = req.body.name;  // set the bears name (comes from the request)
-        bear.posX = req.body.posX;
-        bear.posY = req.body.posY;
-        bear.creator = creds.user;  // creds.user is a user string
-        bear.dateCreated = Date();
-        // save the bear and check for errors
-        bear.save(function (err) {
-          if (err) {
-            res.send(err);
-          }
-          res.json({ message: bear.name + ' bear created at ' + bear.dateCreated + '!' });
-        });
-      })
-      // get all the bears (accessed at GET http://localhost:8080/api/bears)
-     .get(function (req, res) {
-       Bear.find(function (err, bears) {
-         if (err) {
-           res.send(err);
-         }
-         res.json(bears);
-         return 0;
-       });
-     });
-
-// on routes that end in /bears/:bear_id
-// ------------------------------------------------------
-router.route('/bears/:bear_id')
-
-    // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
-    .get(function (req, res) {
-      Bear.findById(req.params.bear_id, function (err, bear) {
-        if (err) {
-          res.send(err);
-        }
-        res.json(bear);
-      });
-    })
-
-    // update the bear with this id (accessed at PUT http://localhost:8080/api/bears/:bear_id)
-    .put(function (req, res) {
-      Bear.findById(req.params.bear_id, function (err, bear) {
-        if (err) {
-          res.send(err);
-        }
-        bear.name = req.body.name;  // update the bears info
-
-          // save the bear
-        bear.save(function (err) {
-          if (err) {
-            res.send(err);
-          }
-          res.json({ message: 'Bear updated!' });
-        });
-      });
-    })
-
-    .delete(function (req, res) {
-      Bear.remove({
-        _id: req.params.bear_id
-      }, function (err) {
-        if (err) {
-          res.send(err);
-        }
-        res.json({ message: 'Successfully deleted' });
-      });
-    });
-
-// REGISTER OUR ROUTES ----------------------------------
-// all of our routes will be prefixed with /api
-app.use(express.static(__dirname + '/src'));
-app.use('/api', router);
-// START THE server
-// ================================================================================
-app.listen(port);
-console.log('App active on port ' + port);

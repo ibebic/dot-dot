@@ -1,2 +1,10 @@
+# editors
+.idea
+.code
+*.sublime-*
+
+# deps
 node_modules
-config/env/credentials.js
+
+# private
+.env
