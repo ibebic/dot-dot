@@ -8,3 +8,7 @@ node_modules
 
 # private
 .env
+
+# logs
+logs/*
+!logs/.gitkeep

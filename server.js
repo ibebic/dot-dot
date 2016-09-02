@@ -4,6 +4,7 @@
 require('dotenv').load();
 const port = process.env.PORT || 8080;
 
+const fs = require('fs');
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 const express = require('express');
@@ -12,9 +13,12 @@ const morgan = require('morgan');
 const pathJoin = require('path').join;
 const api = require('./app/api.js');
 
+const accessLogStream = fs.createWriteStream(
+  pathJoin(__dirname, '/logs/access.log'), { flags: 'a' });
+
 // Setup express server.
 const app = express()
-  .use(morgan('combined'))
+  .use(morgan('combined', { stream: accessLogStream }))
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
   .use(express.static(pathJoin(__dirname, '/src')))
