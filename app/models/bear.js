@@ -6,7 +6,6 @@ const Schema = mongoose.Schema;
 const Bear = new Schema({
   name: String,
   creator: String,
-  dateCreated: Date,
   posX: Number,
   posY: Number
 }, {

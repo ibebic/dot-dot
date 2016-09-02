@@ -37,7 +37,14 @@ function listing() {
     success: function (bears) {
       var dots = bears.filter(function (bears) {
         var checkDate = document.getElementById('filterDate').value;
-        return Date.parse(bears.createdAt) < (Date.parse(checkDate) + 86400000); // add one day to current time as a temporary fix for newly added dots
+        // if there is no createdAt value in an object, dateCreated value will be used (for older DB records)
+        var createDate;
+        if (bears.createdAt) {
+          createDate = Date.parse(bears.createdAt);
+        } else {
+          createDate = Date.parse(bears.dateCreated);
+        }
+        return createDate < (Date.parse(checkDate) + 86400000);
       });
       dots = dots.map(function (bear) {
         return createDot(bear);
