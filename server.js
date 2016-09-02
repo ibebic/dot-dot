@@ -21,10 +21,13 @@ const app = express()
   .use('/api', api);
 
 // Connect to mongo database.
-mongoose.connect(process.env.DB_HOST, process.env.DB_NAME, process.env.DB_PORT, {
-  user: process.env.DB_USERNAME,
-  pass: process.env.DB_PASSWORD
-});
+mongoose.connect(
+  process.env.DB_HOST,
+  process.env.DB_NAME,
+  process.env.DB_PORT, {
+    user: process.env.DB_USERNAME,
+    pass: process.env.DB_PASSWORD
+  });
 mongoose.connection.on('error', err =>
   console.error('Error: Connecting to mongo failed,', err.message));
 
